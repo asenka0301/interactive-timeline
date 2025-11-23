@@ -5,11 +5,12 @@ export const GlobalStyle = createGlobalStyle`
   ${normalize}
 
   :root {
-    --color-bg: #fff;
+    --color-bg: #f4f5f9;
     --color-dark: #42567a;
     --color-blue: #3877ee;
     --color-iris-100: #5d5fef;
     --color-fuschia-100: #ef5dA8;
+    --color-line: #c7cdd9;
   }
 
   *, *::before, *::after {
@@ -20,13 +21,25 @@ export const GlobalStyle = createGlobalStyle`
     min-height: 100%;
   }
 
+  h1, h2, h3, p {
+    margin: 0;
+  }
+  
+  button {
+    background-color: #fff;
+    border: none;
+    outline: none;
+  }
+
   body {
-    margin: 0 auto;
+    min-width: 320px;
+    margin: 0;
+    padding: 0;
     font-family: "PT Sans", sans-serif;
     font-weight: 400;
     font-style: normal;
-    color: var(--color-fuschia-100);
+    color: var(--color-dark);
     background-color: var(--color-bg);
-    border: 3px solid red;
+    -webkit-font-smoothing: antialiased;
   }
 `;
