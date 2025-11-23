@@ -1,5 +1,6 @@
 import { FC, useState } from "react";
 import { styled } from "styled-components";
+import TimelineHeader from "./TimelineHeader";
 import { CategoryId, TIMELINE_CATEGORIES } from "../data/timelineData";
 
 const Column = styled.div`
@@ -28,7 +29,7 @@ const TimelineBlock: FC = () => {
 
   return (
     <TimelineWrapper>
-      <div>header</div>
+      <TimelineHeader activeCategoryData={activeCategoryData} />
       <TimelinePanel>
         <h2>{activeCategoryData?.title}</h2>
         <div>Slider</div>
