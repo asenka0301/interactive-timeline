@@ -42,4 +42,8 @@ export const GlobalStyle = createGlobalStyle`
     background-color: var(--color-bg);
     -webkit-font-smoothing: antialiased;
   }
+  
+ .swiper-pagination-bullet {
+    background: var(--color-dark);
+  }
 `;

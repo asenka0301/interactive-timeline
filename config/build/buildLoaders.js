@@ -19,7 +19,15 @@ function buildLoaders({ mode }) {
     exclude: /node_modules/,
   };
 
-  return [cssLoader, tsLoader];
+  const assetsLoader = {
+    test: /\.(png|jpe?g|gif|svg)$/i,
+    type: "asset/resource",
+    generator: {
+      filename: "assets/[hash][ext][query]",
+    },
+  };
+
+  return [assetsLoader, cssLoader, tsLoader];
 }
 
 module.exports = { buildLoaders };

@@ -2,6 +2,7 @@ import { FC, useState } from "react";
 import { styled } from "styled-components";
 import TimelineHeader from "./TimelineHeader";
 import { CategoryId, TIMELINE_CATEGORIES } from "../data/timelineData";
+import TimelineSlider from "./TimelineSlider";
 
 const Column = styled.div`
   display: flex;
@@ -22,6 +23,7 @@ const TimelinePanel = styled(Column)`
 
 const TimelineBlock: FC = () => {
   const [activeCategory, setActiveCategory] = useState<CategoryId>("cinema");
+  const total = TIMELINE_CATEGORIES.length;
 
   const activeCategoryData = TIMELINE_CATEGORIES?.find(
     (item) => item.id === activeCategory
@@ -32,7 +34,11 @@ const TimelineBlock: FC = () => {
       <TimelineHeader activeCategoryData={activeCategoryData} />
       <TimelinePanel>
         <h2>{activeCategoryData?.title}</h2>
-        <div>Slider</div>
+        <TimelineSlider
+          timelineData={TIMELINE_CATEGORIES}
+          setActiveCategory={setActiveCategory}
+          total={total}
+        />
       </TimelinePanel>
     </TimelineWrapper>
   );
