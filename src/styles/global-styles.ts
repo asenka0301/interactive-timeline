@@ -19,6 +19,7 @@ export const GlobalStyle = createGlobalStyle`
 
   html, body, #root {
     min-height: 100%;
+    font-size: 16px;
   }
 
   h1, h2, h3, p {
