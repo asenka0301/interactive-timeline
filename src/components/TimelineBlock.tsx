@@ -31,7 +31,10 @@ const TimelineBlock: FC = () => {
 
   return (
     <TimelineWrapper>
-      <TimelineHeader activeCategoryData={activeCategoryData} />
+      <TimelineHeader
+        activeCategoryData={activeCategoryData}
+        timelineData={TIMELINE_CATEGORIES}
+      />
       <TimelinePanel>
         <h2>{activeCategoryData?.title}</h2>
         <TimelineSlider

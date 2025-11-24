@@ -3,18 +3,24 @@ import { FC, useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { type TimelineCategory } from "data/timelineData";
+import TimelineOrbitNavigation from "./TimelineOrbitNavigation";
 
 type TimelineHeaderProps = {
   activeCategoryData?: TimelineCategory;
+  timelineData: Array<TimelineCategory>;
 };
 
 const Container = styled.div`
+  position: relative;
   display: flex;
-  justify-content: space-between;
-  padding: 56px 20px;
+  justify-content: center;
+  align-items: center;
+  gap: 75px;
+  padding: 96px 0;
 
   div {
-    font-size: 56px;
+    font-size: 3.5rem;
+    font-size: clamp(3.5rem, 1.7000000000000002rem + 9vw, 12.5rem);
     font-weight: bold;
     color: var(--color-blue);
   }
@@ -22,9 +28,49 @@ const Container = styled.div`
   .fuschia {
     color: var(--color-fuschia-100);
   }
+
+  @media (max-width: 1023px) {
+    justify-content: space-between;
+    gap: 0;
+    padding: 56px 20px;
+  }
 `;
 
-const TimelineHeader: FC<TimelineHeaderProps> = ({ activeCategoryData }) => {
+const Lines = styled.div`
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    background: var(--color-line);
+  }
+
+  &::before {
+    left: 0;
+    right: 0;
+    top: 50%;
+    height: 1px;
+  }
+
+  &::after {
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 1px;
+  }
+
+  @media (max-width: 1023px) {
+    display: none;
+  }
+`;
+
+const TimelineHeader: FC<TimelineHeaderProps> = ({
+  activeCategoryData,
+  timelineData,
+}) => {
   const startRef = useRef<HTMLDivElement | null>(null);
   const endRef = useRef<HTMLDivElement | null>(null);
   const events = activeCategoryData?.events ?? [];
@@ -68,6 +114,11 @@ const TimelineHeader: FC<TimelineHeaderProps> = ({ activeCategoryData }) => {
 
   return (
     <Container>
+      <Lines />
+      <TimelineOrbitNavigation
+        activeCategoryData={activeCategoryData}
+        timelineData={timelineData}
+      />
       <div ref={startRef}>{startYear}</div>
       <div className="fuschia" ref={endRef}>
         {endYear}
