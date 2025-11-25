@@ -30,6 +30,7 @@ export const GlobalStyle = createGlobalStyle`
     background-color: #fff;
     border: none;
     outline: none;
+    cursor: pointer;
   }
 
   body {

@@ -1,8 +1,11 @@
-import { FC } from "react";
+import { FC, useRef, useState } from "react";
 import { styled } from "styled-components";
 import { type TimelineCategory } from "data/timelineData";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { Swiper as SwiperType } from "swiper";
 import { Navigation } from "swiper/modules";
+import arrowLeft from "../assets/icons/arrow-left_blue_8x12.svg";
+import arrowRight from "../assets/icons/arrow-right_blue-8x12.svg";
 
 import "swiper/css";
 import "swiper/css/navigation";
@@ -12,39 +15,54 @@ type CategoryEventsSliderProps = {
 };
 
 const InnerSwiperWrapper = styled.div`
+  position: relative;
   padding: 130px 80px 0;
+
+  .navigation-btn {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+
+    .arrow-icon {
+      display: inline-block;
+      background-size: cover;
+      background-repeat: no-repeat;
+      width: 8px;
+      height: 12px;
+    }
+
+    &:hover {
+      box-shadow: 0 0 15px rgba(56, 119, 238, 0.1);
+    }
+    &:disabled {
+      display: none;
+    }
+  }
+
+  .navigation-btn.prev {
+    bottom: 35px;
+    left: 20px;
+    .arrow-icon {
+      background-image: url(${arrowLeft});
+    }
+  }
+
+  .navigation-btn.next {
+    bottom: 35px;
+    right: 30px;
+    .arrow-icon {
+      background-image: url(${arrowRight});
+    }
+  }
 
   @media (max-width: 1023px) {
     padding: 20px 0 60px 20px;
-  }
 
-  .swiper-button-prev,
-  .swiper-button-next {
-    display: none;
-  }
-
-  @media (min-width: 1024px) {
-    .swiper-button-prev,
-    .swiper-button-next {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      border: none;
-      background: #fff;
-
-      .swiper-navigation-icon {
-        width: 10px;
-        height: 15px;
-      }
-    }
-    .swiper-button-prev.swiper-button-disabled,
-    .swiper-button-next.swiper-button-disabled {
+    .navigation-btn {
       display: none;
     }
   }
@@ -54,7 +72,8 @@ const EventCard = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
-  flex: 0 0 200px;
+  width: 100%;
+  max-width: 320px;
   cursor: pointer;
 
   h3 {
@@ -68,8 +87,9 @@ const EventCard = styled.div`
     margin: 0;
     font-size: 20px;
   }
+
   @media (max-width: 1023px) {
-    flex: 0 0 160px;
+    max-width: 170px;
 
     h3 {
       font-size: 16px;
@@ -81,16 +101,24 @@ const EventCard = styled.div`
 `;
 
 const CategoryEventsSlider: FC<CategoryEventsSliderProps> = ({ category }) => {
+  const swiperRef = useRef<SwiperType | null>(null);
+  const [canPrev, setCanPrev] = useState(false);
+  const [canNext, setCanNext] = useState(false);
+
+  const updateButtons = (swiper: SwiperType) => {
+    setCanPrev(!swiper.isBeginning);
+    setCanNext(!swiper.isEnd);
+  };
+
   return (
     <InnerSwiperWrapper>
       <Swiper
         modules={[Navigation]}
         nested={true}
-        navigation
         breakpoints={{
           320: {
-            slidesPerView: 2,
-            spaceBetween: 20,
+            slidesPerView: 1.6,
+            spaceBetween: 10,
           },
           768: {
             slidesPerView: 3,
@@ -101,6 +129,11 @@ const CategoryEventsSlider: FC<CategoryEventsSliderProps> = ({ category }) => {
             spaceBetween: 80,
           },
         }}
+        onBeforeInit={(swiper) => {
+          swiperRef.current = swiper;
+        }}
+        onInit={updateButtons}
+        onSlideChange={updateButtons}
       >
         {category.events.map((event) => (
           <SwiperSlide key={event.id}>
@@ -111,6 +144,22 @@ const CategoryEventsSlider: FC<CategoryEventsSliderProps> = ({ category }) => {
           </SwiperSlide>
         ))}
       </Swiper>
+      <button
+        type="button"
+        className="navigation-btn prev"
+        onClick={() => swiperRef.current?.slidePrev()}
+        disabled={!canPrev}
+      >
+        <span className="arrow-icon"></span>
+      </button>
+      <button
+        type="button"
+        className="navigation-btn next"
+        onClick={() => swiperRef.current?.slideNext()}
+        disabled={!canNext}
+      >
+        <span className="arrow-icon"></span>
+      </button>
     </InnerSwiperWrapper>
   );
 };
