@@ -16,54 +16,59 @@ type CategoryEventsSliderProps = {
 
 const InnerSwiperWrapper = styled.div`
   position: relative;
-  padding: 130px 80px 0;
+  padding: 130px 80px 20px;
 
-  .navigation-btn {
-    position: absolute;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
+  .container {
+    position: relative;
+    .navigation-btn {
+      position: absolute;
+      top: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      z-index: 2;
 
-    .arrow-icon {
-      display: inline-block;
-      background-size: cover;
-      background-repeat: no-repeat;
-      width: 8px;
-      height: 12px;
+      .arrow-icon {
+        display: inline-block;
+        background-size: cover;
+        background-repeat: no-repeat;
+        width: 8px;
+        height: 12px;
+      }
+
+      &:hover {
+        box-shadow: 0 0 15px rgba(56, 119, 238, 0.1);
+      }
+      &:disabled {
+        display: none;
+      }
     }
 
-    &:hover {
-      box-shadow: 0 0 15px rgba(56, 119, 238, 0.1);
+    .navigation-btn.prev {
+      left: -60px;
+      .arrow-icon {
+        background-image: url(${arrowLeft});
+      }
     }
-    &:disabled {
-      display: none;
-    }
-  }
 
-  .navigation-btn.prev {
-    bottom: 35px;
-    left: 20px;
-    .arrow-icon {
-      background-image: url(${arrowLeft});
-    }
-  }
-
-  .navigation-btn.next {
-    bottom: 35px;
-    right: 30px;
-    .arrow-icon {
-      background-image: url(${arrowRight});
+    .navigation-btn.next {
+      right: -50px;
+      .arrow-icon {
+        background-image: url(${arrowRight});
+      }
     }
   }
 
   @media (max-width: 1023px) {
     padding: 20px 0 60px 20px;
 
-    .navigation-btn {
-      display: none;
+    div {
+      navigation-btn {
+        display: none;
+      }
     }
   }
 `;
@@ -112,54 +117,56 @@ const CategoryEventsSlider: FC<CategoryEventsSliderProps> = ({ category }) => {
 
   return (
     <InnerSwiperWrapper>
-      <Swiper
-        modules={[Navigation]}
-        nested={true}
-        breakpoints={{
-          320: {
-            slidesPerView: 1.6,
-            spaceBetween: 10,
-          },
-          768: {
-            slidesPerView: 3,
-            spaceBetween: 20,
-          },
-          1024: {
-            slidesPerView: 3,
-            spaceBetween: 80,
-          },
-        }}
-        onBeforeInit={(swiper) => {
-          swiperRef.current = swiper;
-        }}
-        onInit={updateButtons}
-        onSlideChange={updateButtons}
-      >
-        {category.events.map((event) => (
-          <SwiperSlide key={event.id}>
-            <EventCard>
-              <h3>{event.year}</h3>
-              <p className="description">{event.description}</p>
-            </EventCard>
-          </SwiperSlide>
-        ))}
-      </Swiper>
-      <button
-        type="button"
-        className="navigation-btn prev"
-        onClick={() => swiperRef.current?.slidePrev()}
-        disabled={!canPrev}
-      >
-        <span className="arrow-icon"></span>
-      </button>
-      <button
-        type="button"
-        className="navigation-btn next"
-        onClick={() => swiperRef.current?.slideNext()}
-        disabled={!canNext}
-      >
-        <span className="arrow-icon"></span>
-      </button>
+      <div className="container">
+        <Swiper
+          modules={[Navigation]}
+          nested={true}
+          breakpoints={{
+            320: {
+              slidesPerView: 1.6,
+              spaceBetween: 10,
+            },
+            768: {
+              slidesPerView: 3,
+              spaceBetween: 20,
+            },
+            1024: {
+              slidesPerView: 3,
+              spaceBetween: 80,
+            },
+          }}
+          onBeforeInit={(swiper) => {
+            swiperRef.current = swiper;
+          }}
+          onInit={updateButtons}
+          onSlideChange={updateButtons}
+        >
+          {category.events.map((event) => (
+            <SwiperSlide key={event.id}>
+              <EventCard>
+                <h3>{event.year}</h3>
+                <p className="description">{event.description}</p>
+              </EventCard>
+            </SwiperSlide>
+          ))}
+        </Swiper>
+        <button
+          type="button"
+          className="navigation-btn prev"
+          onClick={() => swiperRef.current?.slidePrev()}
+          disabled={!canPrev}
+        >
+          <span className="arrow-icon"></span>
+        </button>
+        <button
+          type="button"
+          className="navigation-btn next"
+          onClick={() => swiperRef.current?.slideNext()}
+          disabled={!canNext}
+        >
+          <span className="arrow-icon"></span>
+        </button>
+      </div>
     </InnerSwiperWrapper>
   );
 };
