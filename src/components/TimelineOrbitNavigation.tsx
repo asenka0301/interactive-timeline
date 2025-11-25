@@ -40,8 +40,8 @@ const OrbitCircle = styled.div`
 `;
 
 const DotButton = styled.button<{
-  angle: number;
-  radius: number;
+  $angle: number;
+  $radius: number;
   $active: boolean;
   $showCategory: boolean;
 }>`
@@ -56,12 +56,12 @@ const DotButton = styled.button<{
   background: var(--color-dark);
   cursor: pointer;
   z-index: 6;
-  transform: translate(-50%, -50%) rotate(${({ angle }) => angle}deg)
-    translate(0, -${({ radius }) => radius}px);
+  transform: translate(-50%, -50%) rotate(${({ $angle }) => $angle}deg)
+    translate(0, -${({ $radius }) => $radius}px);
   transition: width 0.25s ease, height 0.25s ease, background 0.25s ease,
     border-color 0.25s ease, box-shadow 0.25s ease;
 
-  --dot-angle: ${({ angle }) => angle};
+  --dot-angle: ${({ $angle }) => $angle};
 
   .index {
     position: absolute;
@@ -197,8 +197,8 @@ const TimelineOrbitNavigation: FC<TimelineOrbitNavigationProps> = ({
           <DotButton
             key={timelineData[index].id}
             type="button"
-            angle={angle}
-            radius={radius}
+            $angle={angle}
+            $radius={radius}
             id={timelineData[index].id}
             onClick={() => handleDotClick(timelineData[index].id)}
             $active={isActive}
