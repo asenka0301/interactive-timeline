@@ -39,6 +39,7 @@ const TimelineBlock: FC = () => {
   return (
     <TimelineWrapper>
       <TimelineHeader
+        setActiveCategory={setActiveCategory}
         activeCategoryData={activeCategoryData}
         timelineData={TIMELINE_CATEGORIES}
       />
@@ -46,6 +47,7 @@ const TimelineBlock: FC = () => {
         <h2>{activeCategoryData?.title}</h2>
         <TimelineSlider
           timelineData={TIMELINE_CATEGORIES}
+          activeCategory={activeCategory}
           setActiveCategory={setActiveCategory}
           total={total}
         />

@@ -1,4 +1,11 @@
-import { Dispatch, FC, SetStateAction, useRef, useState } from "react";
+import {
+  Dispatch,
+  FC,
+  SetStateAction,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { styled } from "styled-components";
 import { Swiper as SwiperType } from "swiper";
 import { Swiper, SwiperClass, SwiperSlide } from "swiper/react";
@@ -13,6 +20,7 @@ import "swiper/css/pagination";
 
 type TimelineSliderProps = {
   timelineData: Array<TimelineCategory>;
+  activeCategory: CategoryId;
   setActiveCategory: Dispatch<SetStateAction<CategoryId>>;
   total: number;
 };
@@ -28,6 +36,7 @@ const Container = styled.div`
 
 const TimelineSlider: FC<TimelineSliderProps> = ({
   timelineData,
+  activeCategory,
   setActiveCategory,
   total,
 }) => {
@@ -42,6 +51,23 @@ const TimelineSlider: FC<TimelineSliderProps> = ({
     }
     setCurrentIndex(swiper.realIndex + 1);
   };
+
+  useEffect(() => {
+    const swiper = swiperRef.current;
+    if (!swiper) return;
+
+    const newIndex = timelineData.findIndex(
+      (category) => category.id === activeCategory
+    );
+
+    if (newIndex === -1) return;
+    const current = swiper.realIndex ?? swiper.activeIndex;
+    if (current === newIndex) return;
+
+    swiper.slideTo(newIndex);
+    setCurrentIndex(newIndex + 1);
+  }, [activeCategory, timelineData]);
+
   return (
     <Container>
       <Swiper

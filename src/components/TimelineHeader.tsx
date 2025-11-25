@@ -1,13 +1,14 @@
 import { styled } from "styled-components";
-import { FC, useRef } from "react";
+import { Dispatch, FC, SetStateAction, useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
-import { type TimelineCategory } from "data/timelineData";
+import { type CategoryId, type TimelineCategory } from "data/timelineData";
 import TimelineOrbitNavigation from "./TimelineOrbitNavigation";
 
 type TimelineHeaderProps = {
   activeCategoryData?: TimelineCategory;
   timelineData: Array<TimelineCategory>;
+  setActiveCategory: Dispatch<SetStateAction<CategoryId>>;
 };
 
 const Container = styled.div`
@@ -22,7 +23,7 @@ const Container = styled.div`
     font-size: 3.5rem;
     font-size: clamp(3.5rem, 1.7000000000000002rem + 9vw, 12.5rem);
     font-weight: bold;
-    color: var(--color-blue);
+    color: var(--color-iris-100);
   }
 
   .fuschia {
@@ -70,6 +71,7 @@ const Lines = styled.div`
 const TimelineHeader: FC<TimelineHeaderProps> = ({
   activeCategoryData,
   timelineData,
+  setActiveCategory,
 }) => {
   const startRef = useRef<HTMLDivElement | null>(null);
   const endRef = useRef<HTMLDivElement | null>(null);
@@ -116,6 +118,7 @@ const TimelineHeader: FC<TimelineHeaderProps> = ({
     <Container>
       <Lines />
       <TimelineOrbitNavigation
+        setActiveCategory={setActiveCategory}
         activeCategoryData={activeCategoryData}
         timelineData={timelineData}
       />
