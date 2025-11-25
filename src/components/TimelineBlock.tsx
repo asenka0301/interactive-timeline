@@ -13,11 +13,18 @@ const TimelineWrapper = styled(Column)``;
 
 const TimelinePanel = styled(Column)`
   h2 {
+    display: none;
     margin: 0 20px;
     padding: 0 0 20px;
     font-size: 16px;
     font-weight: bold;
     border-bottom: 2px solid var(--color-line);
+  }
+
+  @media (max-width: 1023px) {
+    h2 {
+      display: block;
+    }
   }
 `;
 

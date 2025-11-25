@@ -5,6 +5,7 @@ import { Swiper, SwiperClass, SwiperSlide } from "swiper/react";
 import { Pagination, Navigation } from "swiper/modules";
 import { type CategoryId, type TimelineCategory } from "data/timelineData";
 import TimelineSliderControls from "./TimelineSliderControls";
+import CategoryEventsSlider from "./CategoryEventsSlider";
 
 import "swiper/css";
 import "swiper/css/navigation";
@@ -16,35 +17,12 @@ type TimelineSliderProps = {
   total: number;
 };
 
-const EventsRow = styled.div`
-  display: flex;
-  gap: 20px;
-  width: 100%;
-  padding: 20px 0 60px 20px;
-  overflow-x: auto;
-  scrollbar-width: none;
-  transition-timing-function: linear;
-  &::-webkit-scrollbar {
-    display: none;
-  }
-`;
+const Container = styled.div`
+  position: relative;
+  margin-top: 20px;
 
-const EventCard = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  flex: 0 0 160px;
-  max-width: 220px;
-
-  h3 {
-    color: var(--color-blue);
-    font-weight: 700;
-    white-space: nowrap;
-  }
-
-  .description {
-    margin: 0;
-    font-size: 14px;
+  @media (max-width: 1023px) {
+    margin-top: 0;
   }
 `;
 
@@ -65,30 +43,30 @@ const TimelineSlider: FC<TimelineSliderProps> = ({
     setCurrentIndex(swiper.realIndex + 1);
   };
   return (
-    <div style={{ position: "relative" }}>
+    <Container>
       <Swiper
         style={{ width: "100%", height: "100%" }}
         slidesPerView={1}
         spaceBetween={10}
         modules={[Pagination, Navigation]}
-        pagination={{ clickable: true }}
+        pagination={{ clickable: true, enabled: true }}
         allowTouchMove={false}
         onSlideChange={handleSlideChange}
         onBeforeInit={(swiper) => {
           swiperRef.current = swiper;
         }}
         scrollbar={false}
+        breakpoints={{
+          1024: {
+            pagination: {
+              enabled: false,
+            },
+          },
+        }}
       >
         {timelineData.map((category) => (
           <SwiperSlide key={category.id}>
-            <EventsRow>
-              {category.events.map((event) => (
-                <EventCard key={event.id}>
-                  <h3>{event.year}</h3>
-                  <p className="description">{event.description}</p>
-                </EventCard>
-              ))}
-            </EventsRow>
+            <CategoryEventsSlider category={category} />
           </SwiperSlide>
         ))}
       </Swiper>
@@ -97,7 +75,7 @@ const TimelineSlider: FC<TimelineSliderProps> = ({
         currentIndex={currentIndex}
         total={total}
       />
-    </div>
+    </Container>
   );
 };
 
