@@ -40,27 +40,16 @@ const Container = styled.div`
 const Lines = styled.div`
   position: absolute;
   inset: 0;
-  z-index: 0;
-
-  &::before,
-  &::after {
-    content: "";
-    position: absolute;
-    background: var(--color-line);
-  }
+  z-index: -1;
 
   &::before {
+    content: "";
+    position: absolute;
     left: 0;
     right: 0;
     top: 50%;
     height: 1px;
-  }
-
-  &::after {
-    top: 0;
-    bottom: 0;
-    left: 50%;
-    width: 1px;
+    background: var(--color-line);
   }
 
   @media (max-width: 1023px) {

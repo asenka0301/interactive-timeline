@@ -9,7 +9,24 @@ const Column = styled.div`
   flex-direction: column;
 `;
 
-const TimelineWrapper = styled(Column)``;
+const TimelineWrapper = styled(Column)`
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 1px;
+    background: var(--color-line);
+    z-index: 0;
+  }
+
+  @media (max-width: 1023px) {
+    &::after {
+      display: none;
+    }
+  }
+`;
 
 const TimelinePanel = styled(Column)`
   h2 {

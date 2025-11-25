@@ -10,7 +10,7 @@ export const GlobalStyle = createGlobalStyle`
     --color-blue: #3877ee;
     --color-iris-100: #5d5fef;
     --color-fuschia-100: #ef5dA8;
-    --color-line: #c7cdd9;
+    --color-line: #c2c8d4;
   }
 
   *, *::before, *::after {
