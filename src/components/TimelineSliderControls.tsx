@@ -1,10 +1,10 @@
-import { styled } from "styled-components";
-import arrowLeftActive from "../assets/icons/arrow-left-dark_6x8.svg";
-import arrowRightActive from "../assets/icons/arrow-right_dark_6x8.svg";
-import arrowLeftDisables from "../assets/icons/arrow-left_grey_6x8.svg";
-import arrowRightDiabled from "../assets/icons/arrow-right_grey_6x8.svg";
-import SwiperInstance from "swiper";
 import { FC } from "react";
+import { styled } from "styled-components";
+import arrowLeftActive from "../assets/icons/arrow-left-dark_9x14.svg";
+import arrowRightActive from "../assets/icons/arrow-right_dark_9x14.svg";
+import arrowLeftDisabled from "../assets/icons/arrow-left_grey_9x14.svg";
+import arrowRightDiabled from "../assets/icons/arrow-right_grey_9x14.svg";
+import SwiperInstance from "swiper";
 
 export interface TimelineSliderControlsProps {
   swiperRef: React.RefObject<SwiperInstance | null>;
@@ -14,15 +14,23 @@ export interface TimelineSliderControlsProps {
 
 const Container = styled.div`
   position: absolute;
-  bottom: -8px;
+  top: 0px;
+  bottom: unset;
   left: 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
   gap: 10px;
-  padding: 0 20px;
-  font-size: 14px;
+  padding: 0 80px;
+  font-size: 16px;
   z-index: 10;
+
+  @media (max-width: 1023px) {
+    top: unset;
+    bottom: -8px;
+    padding: 0 20px;
+    font-size: 14px;
+  }
 `;
 
 const SliderControls = styled.div`
@@ -33,8 +41,8 @@ const SliderControls = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 25px;
-    height: 25px;
+    width: 50px;
+    height: 50px;
     background-color: inherit;
     border-radius: 50%;
     border: 1px solid #9ba5b9;
@@ -44,8 +52,8 @@ const SliderControls = styled.div`
       background-image: url(${arrowLeftActive});
       background-size: cover;
       background-repeat: no-repeat;
-      width: 6px;
-      height: 8px;
+      width: 9px;
+      height: 14px;
     }
 
     .arrow-right {
@@ -56,12 +64,27 @@ const SliderControls = styled.div`
       border: 1px solid #bcc4d2;
     }
 
+    &:active {
+      background-color: #fff;
+    }
+
     &:disabled span {
-      background-image: url(${arrowLeftDisables});
+      background-image: url(${arrowLeftDisabled});
     }
 
     &:disabled .arrow-right {
       background-image: url(${arrowRightDiabled});
+    }
+  }
+  @media (max-width: 1023px) {
+    button {
+      width: 25px;
+      height: 25px;
+
+      span {
+        width: 6px;
+        height: 8px;
+      }
     }
   }
 `;
