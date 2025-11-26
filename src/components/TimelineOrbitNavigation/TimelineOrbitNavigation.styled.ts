@@ -1,7 +1,5 @@
 import { styled } from "styled-components";
-
-const CIRCLE_SIZE = 530;
-const RADIUS = CIRCLE_SIZE / 2;
+import { CIRCLE_SIZE, RADIUS } from "../../config/timelineCircleLayoutConfig";
 
 export const OrbitCircle = styled.div`
   position: absolute;

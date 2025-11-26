@@ -5,6 +5,7 @@ import { type CategoryId, type TimelineCategory } from "data/timelineData";
 import TimelineOrbitNavigation from "../TimelineOrbitNavigation/TimelineOrbitNavigation";
 
 import { Container, Lines } from "./TimelineHeader.styled";
+import { TIMELINE_HEADER_NUMBER_DURATION } from "../../config/animationConfig";
 
 type TimelineHeaderProps = {
   activeCategoryData?: TimelineCategory;
@@ -39,7 +40,7 @@ const TimelineHeader: FC<TimelineHeaderProps> = ({
 
     gsap.to(startObj, {
       value: startYear,
-      duration: 0.3,
+      duration: TIMELINE_HEADER_NUMBER_DURATION,
       ease: "power1.out",
       onUpdate: () => {
         startNode.textContent = String(Math.round(startObj.value));
@@ -48,7 +49,7 @@ const TimelineHeader: FC<TimelineHeaderProps> = ({
 
     gsap.to(endObj, {
       value: endYear,
-      duration: 0.3,
+      duration: TIMELINE_HEADER_NUMBER_DURATION,
       ease: "power1.out",
       onUpdate: () => {
         endNode.textContent = String(Math.round(endObj.value));

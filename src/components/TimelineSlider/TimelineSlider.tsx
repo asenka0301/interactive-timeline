@@ -14,6 +14,11 @@ import { useGSAP } from "@gsap/react";
 import { type CategoryId, type TimelineCategory } from "data/timelineData";
 import TimelineSliderControls from "../TimelineSliderControls/TimelineSliderControls";
 import CategoryEventsSlider from "../CategoryEventsSlider/CategoryEventsSlider";
+import {
+  TIMELINE_SLIDER_PREV_SLIDE_DURATION,
+  TIMELINE_SLIDER_NEXT_SLIDE_DURATION,
+  TIMELINE_SLIDER_NEXT_SLIDE_DELAY,
+} from "../../config/animationConfig";
 
 import { Container, SlideInner } from "./TimelineSlider.styled";
 
@@ -83,7 +88,7 @@ const TimelineSlider: FC<TimelineSliderProps> = ({
             { opacity: 1 },
             {
               opacity: 0,
-              duration: 0.8,
+              duration: TIMELINE_SLIDER_PREV_SLIDE_DURATION,
               ease: "power2.inOut",
             }
           );
@@ -95,8 +100,8 @@ const TimelineSlider: FC<TimelineSliderProps> = ({
             { opacity: 0 },
             {
               opacity: 1,
-              duration: 0.2,
-              delay: 0.8,
+              duration: TIMELINE_SLIDER_NEXT_SLIDE_DURATION,
+              delay: TIMELINE_SLIDER_NEXT_SLIDE_DELAY,
               ease: "power2.inOut",
             }
           );

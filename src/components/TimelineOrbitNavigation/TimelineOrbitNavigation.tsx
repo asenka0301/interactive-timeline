@@ -9,12 +9,13 @@ import {
 import { type CategoryId, type TimelineCategory } from "data/timelineData";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
+import {
+  CIRCLE_DEGREES,
+  RADIUS,
+} from "../../config/timelineCircleLayoutConfig";
+import { TIMELINE_HEADER_ORBITNAVIGATION_DURATION } from "../../config/animationConfig";
 
 import { OrbitCircle, DotButton } from "./TimelineOrbitNavigation.styled";
-
-const CIRCLE_SIZE = 530;
-const RADIUS = CIRCLE_SIZE / 2;
-const CIRCLE_DEGREES = 360;
 
 type TimelineOrbitNavigationProps = {
   activeCategoryData?: TimelineCategory;
@@ -66,7 +67,7 @@ const TimelineOrbitNavigation: FC<TimelineOrbitNavigationProps> = ({
       if (prevIndexRef.current === null) {
         rotationRef.current = targetNoWrap;
         gsap.set(circle, {
-          duration: 1,
+          duration: TIMELINE_HEADER_ORBITNAVIGATION_DURATION,
           rotate: targetNoWrap,
           transformOrigin: "50% 50%",
           "--orbit-rotation": targetNoWrap,
@@ -84,7 +85,7 @@ const TimelineOrbitNavigation: FC<TimelineOrbitNavigationProps> = ({
       setShowCategory(false);
 
       gsap.to(circle, {
-        duration: 1,
+        duration: TIMELINE_HEADER_ORBITNAVIGATION_DURATION,
         rotate: targetRotation,
         "--orbit-rotation": targetNoWrap,
         ease: "power2.inOut",
