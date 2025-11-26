@@ -32,6 +32,16 @@ const Container = styled.div`
   position: relative;
   margin-top: 20px;
 
+  .swiper-slide-active {
+    pointer-events: auto;
+    z-index: 10;
+  }
+
+  .swiper-slide .swiper-slide {
+    pointer-events: auto !important;
+    z-index: auto;
+  }
+
   @media (max-width: 1023px) {
     margin-top: 0;
   }
