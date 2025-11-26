@@ -1,18 +1,10 @@
-import { FC } from "react";
 import { styled } from "styled-components";
-import arrowLeftActive from "../assets/icons/arrow-left-dark_9x14.svg";
-import arrowRightActive from "../assets/icons/arrow-right_dark_9x14.svg";
-import arrowLeftDisabled from "../assets/icons/arrow-left_grey_9x14.svg";
-import arrowRightDiabled from "../assets/icons/arrow-right_grey_9x14.svg";
-import SwiperInstance from "swiper";
+import arrowLeftActive from "../../assets/icons/arrow-left-dark_9x14.svg";
+import arrowRightActive from "../../assets/icons/arrow-right_dark_9x14.svg";
+import arrowLeftDisabled from "../../assets/icons/arrow-left_grey_9x14.svg";
+import arrowRightDiabled from "../../assets/icons/arrow-right_grey_9x14.svg";
 
-export interface TimelineSliderControlsProps {
-  swiperRef: React.RefObject<SwiperInstance | null>;
-  currentIndex: number;
-  total: number;
-}
-
-const Container = styled.div`
+export const Container = styled.div`
   position: absolute;
   top: 0px;
   bottom: unset;
@@ -33,7 +25,7 @@ const Container = styled.div`
   }
 `;
 
-const SliderControls = styled.div`
+export const SliderControls = styled.div`
   display: flex;
   gap: 8px;
 
@@ -88,31 +80,3 @@ const SliderControls = styled.div`
     }
   }
 `;
-
-const TimelineSliderControls: FC<TimelineSliderControlsProps> = ({
-  swiperRef,
-  currentIndex,
-  total,
-}) => {
-  return (
-    <Container>
-      <div>{`0${currentIndex}/0${total}`}</div>
-      <SliderControls>
-        <button
-          onClick={() => swiperRef.current?.slidePrev()}
-          disabled={currentIndex === 1}
-        >
-          <span></span>
-        </button>
-        <button
-          onClick={() => swiperRef.current?.slideNext()}
-          disabled={currentIndex === total}
-        >
-          <span className="arrow-right"></span>
-        </button>
-      </SliderControls>
-    </Container>
-  );
-};
-
-export default TimelineSliderControls;

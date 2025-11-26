@@ -6,15 +6,16 @@ import {
   useRef,
   useState,
 } from "react";
-import { styled } from "styled-components";
 import { Swiper as SwiperType } from "swiper";
 import { Swiper, SwiperClass, SwiperSlide } from "swiper/react";
 import { Pagination, Navigation, EffectFade } from "swiper/modules";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { type CategoryId, type TimelineCategory } from "data/timelineData";
-import TimelineSliderControls from "./TimelineSliderControls";
-import CategoryEventsSlider from "./CategoryEventsSlider";
+import TimelineSliderControls from "../TimelineSliderControls/TimelineSliderControls";
+import CategoryEventsSlider from "../CategoryEventsSlider/CategoryEventsSlider";
+
+import { Container, SlideInner } from "./TimelineSlider.styled";
 
 import "swiper/css";
 import "swiper/css/navigation";
@@ -27,44 +28,6 @@ type TimelineSliderProps = {
   setActiveCategory: Dispatch<SetStateAction<CategoryId>>;
   total: number;
 };
-
-const Container = styled.div`
-  position: relative;
-  margin-top: 20px;
-
-  .swiper-slide-active {
-    pointer-events: auto;
-    z-index: 10;
-  }
-
-  .swiper-slide .swiper-slide {
-    pointer-events: auto !important;
-    z-index: auto;
-  }
-
-  @media (max-width: 1023px) {
-    margin-top: 0;
-  }
-`;
-
-const SlideInner = styled.div`
-  width: 100%;
-  height: 100%;
-  h2 {
-    display: none;
-    margin: 0 20px;
-    padding: 0 0 20px;
-    font-size: 16px;
-    font-weight: bold;
-    border-bottom: 2px solid var(--color-line);
-  }
-
-  @media (max-width: 1023px) {
-    h2 {
-      display: block;
-    }
-  }
-`;
 
 const TimelineSlider: FC<TimelineSliderProps> = ({
   timelineData,

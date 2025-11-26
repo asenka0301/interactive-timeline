@@ -1,8 +1,8 @@
 import { FC, useState } from "react";
 import { styled } from "styled-components";
-import TimelineHeader from "./TimelineHeader";
+import TimelineHeader from "./TimelineHeader/TimelineHeader";
 import { CategoryId, TIMELINE_CATEGORIES } from "../data/timelineData";
-import TimelineSlider from "./TimelineSlider";
+import TimelineSlider from "./TimelineSlider/TimelineSlider";
 
 const Column = styled.div`
   display: flex;
