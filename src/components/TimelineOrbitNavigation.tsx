@@ -39,25 +39,36 @@ const OrbitCircle = styled.div`
   }
 `;
 
-const DotButton = styled.button<{
+type DotButtonProps = {
   $angle: number;
   $radius: number;
   $active: boolean;
   $showCategory: boolean;
-}>`
+};
+
+const DotButton = styled.button.attrs<DotButtonProps>(
+  ({ $angle, $radius }) => ({
+    style: {
+      transform: `translate(-50%, -50%) rotate(${$angle}deg) translate(0, -${$radius}px)`,
+    },
+  })
+)<DotButtonProps>`
   position: absolute;
   left: 50%;
   top: 50%;
   width: ${({ $active }) => ($active ? 56 : 6)}px;
-  height: 6px;
+  height: ${({ $active }) => ($active ? 56 : 6)}px;
   padding: 0;
   border: none;
   border-radius: 50%;
-  background: var(--color-dark);
   cursor: pointer;
   z-index: 6;
-  transform: translate(-50%, -50%) rotate(${({ $angle }) => $angle}deg)
-    translate(0, -${({ $radius }) => $radius}px);
+
+  background: ${({ $active }) =>
+    $active ? "var(--color-bg)" : "var(--color-dark)"};
+  border: ${({ $active }) =>
+    $active ? "1px solid var(--color-line)" : "none"};
+
   transition: width 0.25s ease, height 0.25s ease, background 0.25s ease,
     border-color 0.25s ease, box-shadow 0.25s ease;
 
@@ -71,8 +82,9 @@ const DotButton = styled.button<{
       rotate(calc((var(--orbit-rotation) + var(--dot-angle)) * -1deg));
     font-size: 20px;
     color: var(--color-dark);
-    opacity: 0;
+    opacity: ${({ $active }) => ($active ? 1 : 0)};
     pointer-events: none;
+    transition: opacity 0.3s ease-out;
 
     .category {
       position: absolute;
@@ -85,17 +97,6 @@ const DotButton = styled.button<{
     }
   }
 
-  ${({ $active }) =>
-    $active &&
-    `
-      height: 56px;
-      background: var(--color-bg);
-      border: 1px solid var(--color-line);
-
-      .index {
-        opacity: 1;
-      }
-  `}
   &:hover {
     width: 56px;
     height: 56px;
@@ -123,7 +124,9 @@ const TimelineOrbitNavigation: FC<TimelineOrbitNavigationProps> = ({
   useLayoutEffect(() => {
     function updateRadius() {
       if (!circleRef.current) return;
-      const { height } = circleRef.current.getBoundingClientRect();
+      const height = parseFloat(
+        window.getComputedStyle(circleRef.current).width
+      );
       setRadius(height / 2);
     }
     updateRadius();
@@ -147,7 +150,7 @@ const TimelineOrbitNavigation: FC<TimelineOrbitNavigationProps> = ({
       if (prevIndexRef.current === null) {
         rotationRef.current = targetNoWrap;
         gsap.set(circle, {
-          duration: 0.7,
+          duration: 1,
           rotate: targetNoWrap,
           transformOrigin: "50% 50%",
           "--orbit-rotation": targetNoWrap,
@@ -165,7 +168,7 @@ const TimelineOrbitNavigation: FC<TimelineOrbitNavigationProps> = ({
       setShowCategory(false);
 
       gsap.to(circle, {
-        duration: 0.7,
+        duration: 1,
         rotate: targetRotation,
         "--orbit-rotation": targetNoWrap,
         ease: "power2.inOut",

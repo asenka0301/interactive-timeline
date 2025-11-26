@@ -28,22 +28,7 @@ const TimelineWrapper = styled(Column)`
   }
 `;
 
-const TimelinePanel = styled(Column)`
-  h2 {
-    display: none;
-    margin: 0 20px;
-    padding: 0 0 20px;
-    font-size: 16px;
-    font-weight: bold;
-    border-bottom: 2px solid var(--color-line);
-  }
-
-  @media (max-width: 1023px) {
-    h2 {
-      display: block;
-    }
-  }
-`;
+const TimelinePanel = styled(Column)``;
 
 const TimelineBlock: FC = () => {
   const [activeCategory, setActiveCategory] = useState<CategoryId>("cinema");
@@ -61,7 +46,6 @@ const TimelineBlock: FC = () => {
         timelineData={TIMELINE_CATEGORIES}
       />
       <TimelinePanel>
-        <h2>{activeCategoryData?.title}</h2>
         <TimelineSlider
           timelineData={TIMELINE_CATEGORIES}
           activeCategory={activeCategory}
