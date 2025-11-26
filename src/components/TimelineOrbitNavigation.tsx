@@ -13,7 +13,7 @@ import { useGSAP } from "@gsap/react";
 
 const CIRCLE_SIZE = 530;
 const RADIUS = CIRCLE_SIZE / 2;
-const DOT_ANGLES = [30, 90, 150, 210, 270, 330];
+const CIRCLE_DEGREES = 360;
 
 type TimelineOrbitNavigationProps = {
   activeCategoryData?: TimelineCategory;
@@ -116,10 +116,13 @@ const TimelineOrbitNavigation: FC<TimelineOrbitNavigationProps> = ({
 }) => {
   const circleRef = useRef<HTMLDivElement>(null);
   const [radius, setRadius] = useState<number>(RADIUS);
-  const count = Math.min(timelineData.length, DOT_ANGLES.length);
+  const count = timelineData.length;
+  const angleStep = CIRCLE_DEGREES / count;
+  const startAngle = angleStep / 2;
   const rotationRef = useRef<number>(0);
   const prevIndexRef = useRef<number | null>(null);
   const [canShowCategory, setShowCategory] = useState<boolean>(true);
+  const angles = timelineData.map((_, i) => startAngle + i * angleStep);
 
   useLayoutEffect(() => {
     function updateRadius() {
@@ -144,8 +147,8 @@ const TimelineOrbitNavigation: FC<TimelineOrbitNavigationProps> = ({
       );
       if (currentIndex === -1) return;
 
-      const baseAngle = DOT_ANGLES[currentIndex];
-      const targetNoWrap = 30 - baseAngle;
+      const baseAngle = angles[currentIndex];
+      const targetNoWrap = startAngle - baseAngle;
 
       if (prevIndexRef.current === null) {
         rotationRef.current = targetNoWrap;
@@ -162,8 +165,8 @@ const TimelineOrbitNavigation: FC<TimelineOrbitNavigationProps> = ({
 
       const currentRotation = rotationRef.current;
 
-      const k = Math.round((currentRotation - targetNoWrap) / 360);
-      const targetRotation = targetNoWrap + 360 * k;
+      const k = Math.round((currentRotation - targetNoWrap) / CIRCLE_DEGREES);
+      const targetRotation = targetNoWrap + CIRCLE_DEGREES * k;
 
       setShowCategory(false);
 
@@ -193,7 +196,7 @@ const TimelineOrbitNavigation: FC<TimelineOrbitNavigationProps> = ({
   return (
     <OrbitCircle ref={circleRef}>
       {Array.from({ length: count }).map((_, index) => {
-        const angle = DOT_ANGLES[index];
+        const angle = angles[index];
         const isActive = activeCategoryData?.id === timelineData[index].id;
 
         return (
